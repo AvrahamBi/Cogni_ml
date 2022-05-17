@@ -34,14 +34,16 @@ def load_data(client, tests):
         dataset.insert_one(test)
 
 def get_dataset(client):
-    dataset = client.ml.dataset
+    db = client.ml.dataset.find()
+    matrix = []
     i = 0
-    for test in dataset:
-        arr = [i]
+    for test in db:
+        arr = []
         for feature in test:
-            arr.append(feature)
-
-    i += 1
+            arr.append(test[feature])
+        i += 1
+        matrix.append(arr)
+    return matrix
 
 
 
@@ -55,3 +57,5 @@ if __name__ == "__main__":
 
 
     dataset = get_dataset(client)
+    set = np.matrix(dataset)
+    print(set.shape)
