@@ -1,9 +1,10 @@
+# colab link: https://colab.research.google.com/drive/1mfILFHVia38fc0xgT5MHwR1HzyDqb1H3?usp=sharing
 import random
 import pymongo
 import operator
 import string
 import numpy as np
-#import pyplot
+import matplotlib.pyplot as plt
 from pymongo import MongoClient
 from sklearn.preprocessing import LabelEncoder, OrdinalEncoder
 from sklearn.feature_selection import SelectKBest, chi2
@@ -28,7 +29,7 @@ def generate_test():
     count_reset = random.randint(0, 3)
     count_undo = random.randint(0, 6)
     label = random.randint(1, 5)
-    return {'id' : _id, 'gender' : gender, 'age' : age, 'sketchTime' : sketchTime, 'startTime' : startTime,
+    return {'_id' : _id, 'gender' : gender, 'age' : age, 'sketchTime' : sketchTime, 'startTime' : startTime,
             'count_path' : count_path, 'count_reset' : count_reset, 'count_undo' : count_undo, 'label' : label}
 
 def get_tests(client):
@@ -45,8 +46,7 @@ def get_tests(client):
         tests_arr.append(dict)
     if (0 < GENERATE_TESTS):
         for i in range(GENERATE_TESTS):
-            #tests_arr.append(generate_test())
-            pass
+            tests_arr.append(generate_test())
     print("Tests loaded from MongoDb and", GENERATE_TESTS, "tests have been generated.")
     return tests_arr
 
@@ -109,6 +109,18 @@ def show_scores(sorted_scores_dict):
         line = '%14s %14s' % (key, sorted_scores_dict[key])
         print(line)
 
+def show_graph(dict):
+    # plot the scores
+    keys = []
+    scores = []
+    for key in dict:
+        keys.append(key)
+        scores.append(dict[key])
+    plt.bar(keys, scores)
+    plt.title("Higher means more correlation.")
+    plt.xticks(rotation=90)
+    plt.show()
+
 if __name__ == "__main__":
     client = MongoClient(CONNECTION_STRING)
 
@@ -126,5 +138,5 @@ if __name__ == "__main__":
 
     # show scores
     show_scores(sorted_scores_dict)
-
+    show_graph(sorted_scores_dict)
 
