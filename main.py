@@ -47,7 +47,7 @@ def get_tests(client):
         for i in range(GENERATE_TESTS):
             #tests_arr.append(generate_test())
             pass
-    print("Tests loaded from MongoDb and", GENERATE_TESTS, "tests have been generated")
+    print("Tests loaded from MongoDb and", GENERATE_TESTS, "tests have been generated.")
     return tests_arr
 
 # clear dataset database
@@ -62,7 +62,7 @@ def load_data(client, tests):
     dataset = client.ml.dataset
     for test in tests:
         dataset.insert_one(test)
-    print("Dataset has been uplpaded to MongoDb")
+    print("Dataset has been uplpaded to MongoDb.")
 
 def get_dataset(client, target_index):
     db = client.ml.dataset.find()
@@ -102,7 +102,7 @@ def get_scores(client, target_index):
 
 def show_scores(sorted_scores_dict):
     print("")
-    print("List of features and scores")
+    print("List of features and scores.")
     print("higher score means higher correlation between feature to target.")
     for key in sorted_scores_dict:
         #print(key,'\t', sorted_scores_dict[key])
